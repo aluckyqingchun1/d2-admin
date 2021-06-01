@@ -26,22 +26,24 @@
           flex="dir:top main:center cross:center"
         >
           <!-- logo -->
-            <img class="page-login--logo" src="./image/heart.png" />
+          <img class="page-login--logo" src="./image/heart.png" />
           <!-- form -->
-          <div class="page-login--form"  >
+          <div class="page-login--form">
             <el-card shadow="never">
-              <div style="display:flex; justify-content: center;margin:0 auto 10px; ">
-                  <span style="cursor: auto;">
-                    {{title}}
-                  </span>
+              <div
+                style="display:flex; justify-content: center;margin:0 auto 10px; "
+              >
+                <span style="cursor: auto;">
+                  {{ title }}
+                </span>
               </div>
-               <el-form
+              <el-form
                 ref="reform"
                 label-position="top"
                 :rules="rules"
                 :model="reform"
                 size="default"
-                 v-if="forgotPass||isregister"
+                v-if="forgotPass || isregister"
               >
                 <el-form-item prop="reguser" v-if="isregister">
                   <el-input
@@ -52,7 +54,7 @@
                     <i slot="prepend" class="fa fa-user-circle-o"></i>
                   </el-input>
                 </el-form-item>
-                  <el-form-item prop="userphone">
+                <el-form-item prop="userphone">
                   <el-input
                     type="text"
                     v-model="reform.userphone"
@@ -70,7 +72,7 @@
                     <i slot="prepend" class="fa fa-keyboard-o"></i>
                   </el-input>
                 </el-form-item>
-                 <el-form-item prop="checkpassword">
+                <el-form-item prop="checkpassword">
                   <el-input
                     type="password"
                     v-model="reform.checkpassword"
@@ -79,20 +81,18 @@
                     <i slot="prepend" class="fa fa-keyboard-o"></i>
                   </el-input>
                 </el-form-item>
-                <el-form-item prop="code">
+                <el-form-item prop="phonecode"  class="captcha">
                   <el-input
                     type="text"
                     v-model="reform.phonecode"
                     placeholder="手机验证码"
                   >
-                    <template slot="append">
-                      <img class="login-code" src="./image/login-code.png" />
-                    </template>
                   </el-input>
+                      <captcha />
                 </el-form-item>
                 <el-button
                   size="default"
-                  @click="submit"
+                  @click="register"
                   type="primary"
                   class="button-login"
                 >
@@ -125,16 +125,14 @@
                     <i slot="prepend" class="fa fa-keyboard-o"></i>
                   </el-input>
                 </el-form-item>
-                <el-form-item prop="code">
+                <el-form-item prop="code" class="captcha">
                   <el-input
                     type="text"
                     v-model="formLogin.code"
                     placeholder="验证码"
                   >
-                    <template slot="append">
-                      <img class="login-code" src="./image/login-code.png" />
-                    </template>
                   </el-input>
+                  <captcha />
                 </el-form-item>
                 <el-button
                   size="default"
@@ -146,11 +144,21 @@
                 </el-button>
               </el-form>
             </el-card>
-            <p class="page-login--options" flex="main:justify cross:center"  v-if="!forgotPass&&!isregister">
-              <span @click="toFindPassword('forgotPass')"><d2-icon name="question-circle" /> 忘记密码</span>
+            <p
+              class="page-login--options"
+              flex="main:justify cross:center"
+              v-if="!forgotPass && !isregister"
+            >
+              <span @click="toFindPassword('forgotPass')"
+                ><d2-icon name="question-circle" /> 忘记密码</span
+              >
               <span @click="toFindPassword('isregister')">注册用户</span>
             </p>
-            <p class="page-login--options" style="display:flex; justify-content: center;"  v-else>
+            <p
+              class="page-login--options"
+              style="display:flex; justify-content: center;"
+              v-else
+            >
               <span @click="toFindPassword('tologin')">去登录</span>
             </p>
           </div>
@@ -177,6 +185,9 @@ import localeMixin from '@/locales/mixin.js'
 import { isTel, password } from '@/utils/validate.js'
 
 export default {
+  components: {
+    captcha: () => import('./components/captcha')
+  },
   mixins: [localeMixin],
   data () {
     var validPhone = (rule, value, callback) => {
@@ -288,6 +299,18 @@ export default {
     clearInterval(this.timeInterval)
   },
   methods: {
+    register () {
+      console.log(this.reform, 'this.reformthis.reform')
+      this.$refs.reform.validate(valid => {
+        if (valid) {
+          // 登录
+          // 注意 这里的演示没有传验证码
+          // 具体需要传递的数据请自行修改代码
+          console.log(valid, 'validvalidvalidvalidvalidvalidvalid')
+          this.$api.register(this.reform)
+        }
+      })
+    },
     toFindPassword (identifying) {
       switch (identifying) {
         case 'forgotPass': // 忘记密码
@@ -348,7 +371,12 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
+    .captcha {
+     ::v-deep.el-form-item__content {
+      display: flex;
+    }
+    }
 .page-login {
   @extend %unable-select;
   cursor: auto;
@@ -358,6 +386,7 @@ export default {
   height: 100%;
   position: relative;
   // 层
+
   .page-login--layer {
     @extend %full;
     overflow: auto;
@@ -425,7 +454,7 @@ export default {
       margin-bottom: 15px;
       font-weight: bold;
     }
-    span{
+    span {
       cursor: pointer;
     }
     .page-login--quick {

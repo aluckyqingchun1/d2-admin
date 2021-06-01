@@ -75,12 +75,19 @@ keys(pages).forEach(name => {
   })
 })
 
+console.log(process.env, 'process.env.NODE_ENVprocess.env.NODE_ENVprocess.env.NODE_ENV')
 module.exports = {
-  publicPath: process.env.VUE_APP_PUBLIC_PATH || '/',
+  publicPath: process.env.NODE_ENV === 'development' ? '/' : process.env.VUE_APP_PUBLIC_PATH,
   lintOnSave: true,
   devServer: {
-    publicPath: process.env.VUE_APP_PUBLIC_PATH || '/',
-    disableHostCheck: process.env.NODE_ENV === 'development'
+    publicPath: process.env.NODE_ENV === 'development' ? '/' : process.env.VUE_APP_PUBLIC_PATH,
+    disableHostCheck: process.env.NODE_ENV === 'development',
+    proxy: {
+      [process.env.VUE_APP_BASE_API]: {
+        target: 'http://127.0.0.1:7001',
+        changeOrigin: true
+      }
+    }
   },
   css: {
     loaderOptions: {
