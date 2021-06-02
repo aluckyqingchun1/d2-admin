@@ -1,5 +1,5 @@
 <template>
-<div class='contain' v-html="imgsrc">
+<div class='contain' v-html="imgsrc" @click="getCaptcha">
 </div>
 </template>
 

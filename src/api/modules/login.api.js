@@ -6,14 +6,14 @@ export default ({ service, request, serviceForMock, requestForMock, mock, faker,
   getCaptcha () {
     return request({
       baseURL: process.env.BASE_URL,
-      url: '/captcha/',
+      url: '/login/captcha',
       method: 'get'
     })
   },
   login (data) {
     return request({
       baseURL: process.env.BASE_URL,
-      url: '/login/',
+      url: '/login/index',
       method: 'post',
       data
     })
@@ -21,7 +21,7 @@ export default ({ service, request, serviceForMock, requestForMock, mock, faker,
   register (data) {
     return request({
       baseURL: process.env.BASE_URL,
-      url: '/register/',
+      url: '/login/register',
       method: 'post',
       data
     })

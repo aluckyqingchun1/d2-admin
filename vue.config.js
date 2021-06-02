@@ -74,8 +74,6 @@ keys(pages).forEach(name => {
     externals[p.name] = p.library
   })
 })
-
-console.log(process.env, 'process.env.NODE_ENVprocess.env.NODE_ENVprocess.env.NODE_ENV')
 module.exports = {
   publicPath: process.env.NODE_ENV === 'development' ? '/' : process.env.VUE_APP_PUBLIC_PATH,
   lintOnSave: true,

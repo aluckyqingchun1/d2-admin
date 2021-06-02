@@ -13,7 +13,7 @@ export default {
       menu,
       banner: {
         title: 'PLUGIN',
-        subTitle: 'D2Admin 集成了许多实用插件'
+        subTitle: 'D2Admin 集成了许多d】但是肯定是到付即可收看s实用插件'
       }
     }
   }

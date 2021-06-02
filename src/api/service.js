@@ -132,7 +132,6 @@ function createRequest (service) {
       baseURL: process.env.VUE_APP_API,
       data: {}
     }
-    console.log(configDefault, 'configDefaultconfigDefaultconfigDefault')
     const option = Object.assign(configDefault, config)
     // 处理 get 请求的参数
     // 请根据实际需要修改

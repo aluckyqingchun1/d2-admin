@@ -88,7 +88,7 @@
                     placeholder="手机验证码"
                   >
                   </el-input>
-                      <captcha />
+                      <captcha ref="captcha" />
                 </el-form-item>
                 <el-button
                   size="default"
@@ -132,7 +132,7 @@
                     placeholder="验证码"
                   >
                   </el-input>
-                  <captcha />
+                  <captcha ref="captcha" />
                 </el-form-item>
                 <el-button
                   size="default"
@@ -300,7 +300,6 @@ export default {
   },
   methods: {
     register () {
-      console.log(this.reform, 'this.reformthis.reform')
       this.$refs.reform.validate(valid => {
         if (valid) {
           // 登录
@@ -356,13 +355,15 @@ export default {
           // 登录
           // 注意 这里的演示没有传验证码
           // 具体需要传递的数据请自行修改代码
-          this.login({
-            username: this.formLogin.username,
-            password: this.formLogin.password
-          }).then(() => {
+          this.login(this.formLogin).then(() => {
             // 重定向对象不存在则返回顶层路径
             this.$router.replace(this.$route.query.redirect || '/')
             // }
+          }).catch(err => {
+            this.$nextTick(() => {
+              this.$refs.captcha.getCaptcha()
+            })
+            console.log(err, '888888888888888')
           })
         }
       })
